@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lost & Found Management System</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    color: #222;
+}
+
+header {
+    background: #123b63;
+    color: white;
+    padding: 18px;
+}
+
+.nav {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav a, nav button {
+    margin-left: 10px;
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 30px 20px;
+}
+
+.hero {
+    text-align: center;
+    padding: 40px 10px;
+}
+
+.hero h1 {
+    font-size: 40px;
+    margin: 15px 0;
+}
+
+.hero p {
+    color: #666;
+}
+
+button, .btn {
+    background: #1677d2;
+    color: white;
+    border: 0;
+    padding: 12px 18px;
+    border-radius: 7px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.btn-found {
+    background: #198754;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.stat {
+    background: white;
+    padding: 25px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px #ddd;
+}
+
+.stat h2 {
+    font-size: 30px;
+}
+
+.form-box {
+    background: white;
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px #ddd;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+textarea {
+    height: 100px;
+}
+
+.items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px #ddd;
+}
+
+.card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 15px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 5px 9px;
+    border-radius: 15px;
+    font-size: 12px;
+    background: #eee;
+    margin: 5px 0;
+}
+
+.lost {
+    background: #ffdede;
+    color: #b00000;
+}
+
+.found {
+    background: #dff7e5;
+    color: #08752d;
+}
+
+.hidden {
+    display: none;
+}
+
+@media(max-width: 700px) {
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .nav {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .hero h1 {
+        font-size: 30px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="nav">
+    <h2>Lost & Found</h2>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#items">View Items</a>
+        <button onclick="showForm('login')">Login</button>
+        <button onclick="showForm('signup')">Sign Up</button>
+    </nav>
+</div>
+</header>
+
+<main class="container">
+
+
+<section id="home" class="hero">
+    <p>COLLEGE MINI PROJECT</p>
+
+    <h1>Lost and Found Management System</h1>
+
+    <p>
+        A simple platform for students to report lost or found belongings.
+    </p>
+
+    <br>
+
+    <button onclick="showForm('lost')">
+        Report Lost Item
+    </button>
+
+    <button class="btn-found" onclick="showForm('found')">
+        Report Found Item
+    </button>
+</section>
+
+
+
+
+<section class="stats">
+
+    <div class="stat">
+        <h2 id="lostCount">0</h2>
+        <p>Lost Items</p>
+    </div>
+
+    <div class="stat">
+        <h2 id="foundCount">0</h2>
+        <p>Found Items</p>
+    </div>
+
+    <div class="stat">
+        <h2 id="totalCount">0</h2>
+        <p>Total Reports</p>
+    </div>
+
+</section>
+
+
+
+
+<section id="loginForm" class="form-box hidden">
+
+    <h2>Student Login</h2>
+
+    <input type="email" id="loginEmail"
+           placeholder="Student Email">
+
+    <input type="password" id="loginPassword"
+           placeholder="Password">
+
+    <button onclick="login()">Login</button>
+
+    <p id="loginMessage"></p>
+
+</section>
+
+
+
+
+<section id="signupForm" class="form-box hidden">
+
+    <h2>Create Student Account</h2>
+
+    <input type="text" id="signupName"
+           placeholder="Student Name">
+
+    <input type="text" id="studentId"
+           placeholder="Student ID">
+
+    <input type="email" id="signupEmail"
+           placeholder="Email">
+
+    <input type="password" id="signupPassword"
+           placeholder="Password">
+
+    <button onclick="signup()">Create Account</button>
+
+    <p id="signupMessage"></p>
+
+</section>
+
+
+
+
+<section id="reportForm" class="form-box hidden">
+
+    <h2 id="formTitle">Report Item</h2>
+
+    <input type="text" id="itemName"
+           placeholder="Item Name">
+
+    <select id="category">
+
+        <option value="">Select Category</option>
+
+        <option value="Mobile">📱 Mobile</option>
+
+        <option value="Watch">⌚ Watch</option>
+
+        <option value="Student ID">🪪 Student ID Card</option>
+
+        <option value="Book">📚 Book</option>
+
+        <option value="Other">📦 Other</option>
+
+    </select>
+
+    <textarea id="description"
+              placeholder="Describe the item"></textarea>
+
+    <input type="text" id="location"
+           placeholder="Lost/Found Location">
+
+    <input type="date" id="date">
+
+    <label>
+        <b>Upload Item Photo</b>
+    </label>
+
+    <input type="file"
+           id="itemPhoto"
+           accept="image/*">
+
+    <button onclick="submitReport()">
+        Submit Report
+    </button>
+
+</section>
+
+
+
+
+<section id="items">
+
+    <h2>Lost & Found Items</h2>
+
+    <br>
+
+    <input type="text"
+           id="search"
+           placeholder="🔎 Search mobile, watch, ID card, book..."
+           onkeyup="displayItems()">
+
+    <select id="filter"
+            onchange="displayItems()">
+
+        <option value="All">All Items</option>
+        <option value="Lost">Lost Items</option>
+        <option value="Found">Found Items</option>
+
+    </select>
+
+    <br><br>
+
+    <div id="itemList" class="items"></div>
+
+</section>
+
+</main>
+
+
+<script>
+
+let reports = [];
+
+let reportType = "Lost";
+
+
+
+
+function showForm(type) {
+
+    document.getElementById("loginForm").classList.add("hidden");
+    document.getElementById("signupForm").classList.add("hidden");
+    document.getElementById("reportForm").classList.add("hidden");
+
+    if(type === "login") {
+        document.getElementById("loginForm")
+            .classList.remove("hidden");
+    }
+
+    if(type === "signup") {
+        document.getElementById("signupForm")
+            .classList.remove("hidden");
+    }
+
+    if(type === "lost" || type === "found") {
+
+        reportType =
+            type === "lost" ? "Lost" : "Found";
+
+        document.getElementById("formTitle").innerText =
+            "Report " + reportType + " Item";
+
+        document.getElementById("reportForm")
+            .classList.remove("hidden");
+
+        window.scrollTo({
+            top: document.getElementById("reportForm").offsetTop,
+            behavior: "smooth"
+        });
+    }
+}
+
+
+
+
+function signup() {
+
+    let name =
+        document.getElementById("signupName").value;
+
+    let id =
+        document.getElementById("studentId").value;
+
+    let email =
+        document.getElementById("signupEmail").value;
+
+    let password =
+        document.getElementById("signupPassword").value;
+
+    if(!name || !id || !email || !password) {
+
+        document.getElementById("signupMessage")
+            .innerText = "Please fill all fields.";
+
+        return;
+    }
+
+    localStorage.setItem(
+        "student",
+        JSON.stringify({
+            name,
+            id,
+            email,
+            password
+        })
+    );
+
+    document.getElementById("signupMessage")
+        .innerText =
+        "Account created successfully!";
+
+}
+
+
+
+
+function login() {
+
+    let email =
+        document.getElementById("loginEmail").value;
+
+    let password =
+        document.getElementById("loginPassword").value;
+
+    let student =
+        JSON.parse(localStorage.getItem("student"));
+
+    if(student &&
+       email === student.email &&
+       password === student.password) {
+
+        document.getElementById("loginMessage")
+            .innerText =
+            "Login successful! Welcome " +
+            student.name;
+
+    } else {
+
+        document.getElementById("loginMessage")
+            .innerText =
+            "Invalid email or password.";
+
+    }
+
+}
+
+
+
+
+function submitReport() {
+
+    let name =
+        document.getElementById("itemName").value;
+
+    let category =
+        document.getElementById("category").value;
+
+    let description =
+        document.getElementById("description").value;
+
+    let location =
+        document.getElementById("location").value;
+
+    let date =
+        document.getElementById("date").value;
+
+    let photo =
+        document.getElementById("itemPhoto");
+
+    if(!name || !category || !description ||
+       !location || !date) {
+
+        alert("Please fill all required fields.");
+        return;
+    }
+
+    let reader = new FileReader();
+
+    reader.onload = function() {
+
+        let report = {
+
+            name: name,
+
+            category: category,
+
+            description: description,
+
+            location: location,
+
+            date: date,
+
+            type: reportType,
+
+            photo: reader.result
+
+        };
+
+        reports.push(report);
+
+        displayItems();
+
+        updateStats();
+
+        alert(
+            reportType +
+            " item reported successfully!"
+        );
+
+        document.getElementById("reportForm")
+            .classList.add("hidden");
+
+    };
+
+    if(photo.files[0]) {
+
+        reader.readAsDataURL(photo.files[0]);
+
+    } else {
+
+        let report = {
+
+            name,
+            category,
+            description,
+            location,
+            date,
+            type: reportType,
+            photo: ""
+
+        };
+
+        reports.push(report);
+
+        displayItems();
+
+        updateStats();
+    }
+}
+
+
+
+
+function displayItems() {
+
+    let list =
+        document.getElementById("itemList");
+
+    let search =
+        document.getElementById("search")
+        .value.toLowerCase();
+
+    let filter =
+        document.getElementById("filter").value;
+
+    list.innerHTML = "";
+
+    let filtered =
+        reports.filter(item => {
+
+            let matchesSearch =
+                item.name.toLowerCase()
+                .includes(search) ||
+                item.category.toLowerCase()
+                .includes(search);
+
+            let matchesFilter =
+                filter === "All" ||
+                item.type === filter;
+
+            return matchesSearch &&
+                   matchesFilter;
+
+        });
+
+
+    filtered.forEach(item => {
+
+        let card =
+            document.createElement("div");
+
+        card.className = "card";
+
+        card.innerHTML = `
+
+            ${
+                item.photo
+                ?
+                `<img src="${item.photo}">`
+                :
+                `<div style="
+                    height:180px;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    background:#eee;
+                    font-size:50px;">
+                    📦
+                </div>`
+            }
+
+            <div class="card-content">
+
+                <span class="badge
+                ${item.type === "Lost"
+                    ? "lost"
+                    : "found"}">
+
+                    ${item.type}
+
+                </span>
+
+                <h3>
+                    ${item.name}
+                </h3>
+
+                <p>
+                    <b>Category:</b>
+                    ${item.category}
+                </p>
+
+                <p>
+                    <b>Description:</b>
+                    ${item.description}
+                </p>
+
+                <p>
+                    <b>Location:</b>
+                    ${item.location}
+                </p>
+
+                <p>
+                    <b>Date:</b>
+                    ${item.date}
+                </p>
+
+                <button onclick="
+                    alert('Please contact the student/administrator.')
+                ">
+                    Contact
+                </button>
+
+            </div>
+        `;
+
+        list.appendChild(card);
+
+    });
+
+}
+
+
+// UPDATE STATISTICS
+
+function updateStats() {
+
+    let lost =
+        reports.filter(
+            item => item.type === "Lost"
+        ).length;
+
+    let found =
+        reports.filter(
+            item => item.type === "Found"
+        ).length;
+
+    document.getElementById("lostCount")
+        .innerText = lost;
+
+    document.getElementById("foundCount")
+        .innerText = found;
+
+    document.getElementById("totalCount")
+        .innerText = reports.length;
+
+}
+
+</script>
+
+</body>
+</html>
