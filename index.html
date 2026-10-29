@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#6653d9">
+    <title>FindIt — Lost & Found</title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="/script.js" defer></script>
+</head>
+<body>
+<header class="navbar">
+    <a class="brand" href="#home"><span class="brand-icon">✦</span> FindIt</a>
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#browse">Browse items</a>
+        <a href="#report" class="nav-cta">＋ Report an item</a>
+    </nav>
+</header>
+
+<main>
+    <section class="hero" id="home">
+        <div class="hero-copy">
+            <span class="eyebrow">✦ YOUR COMMUNITY, CONNECTED</span>
+            <h1>Lost something?<br>Let's <span>find it.</span></h1>
+            <p>A little help can make someone's day. Report lost items, share what you've found, and reunite people with what matters.</p>
+            <div class="hero-actions">
+                <a href="#browse" class="button primary">Explore items ↗</a>
+                <a href="#report" class="button secondary">＋ Create a report</a>
+            </div>
+            <div class="hero-note">♡ Built for helpful communities</div>
+        </div>
+        <div class="hero-art" aria-label="Lost and found illustration">
+            <div class="orbit orbit-one"></div>
+            <div class="orbit orbit-two"></div>
+            <div class="float-card float-top">✦ Every item has a story</div>
+            <div class="hero-emoji">🎒</div>
+            <div class="float-card float-bottom"><span>●</span> Let's reunite what matters</div>
+            <div class="spark spark-one">✳</div>
+            <div class="spark spark-two">✦</div>
+        </div>
+    </section>
+
+    <section class="stats" aria-label="Community statistics">
+        <div class="stat"><span class="stat-icon lavender">▤</span><div><strong id="totalCount">0</strong><span>Total reports</span></div></div>
+        <div class="stat"><span class="stat-icon peach">⌕</span><div><strong id="lostCount">0</strong><span>Items lost</span></div></div>
+        <div class="stat"><span class="stat-icon mint">♡</span><div><strong id="foundCount">0</strong><span>Items found</span></div></div>
+    </section>
+
+    <section class="browse section" id="browse">
+        <div class="section-heading">
+            <div><span class="eyebrow">THE COMMUNITY BOARD</span><h2>Find what's <span>out there.</span></h2><p>Every report is another chance to reconnect.</p></div>
+            <a class="text-link" href="#report">Have something to report? ↗</a>
+        </div>
+
+        <div class="search-row">
+            <label class="search-box"><span>⌕</span><input id="search" type="search" placeholder="Search by item, location, or keyword..." aria-label="Search items"></label>
+            <label class="category-select"><span class="sr-only">Filter by category</span>
+                <select id="categoryFilter">
+                    <option value="All">All categories</option>
+                    <option>Electronics</option><option>Bags</option><option>Keys</option>
+                    <option>Documents</option><option>Clothing</option><option>Accessories</option>
+                    <option>Pets</option><option>Other</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="filter-row" role="group" aria-label="Filter item type">
+            <button class="filter-button active" data-filter="All" aria-pressed="true">All items</button>
+            <button class="filter-button" data-filter="Lost" aria-pressed="false">⌕ Lost items</button>
+            <button class="filter-button" data-filter="Found" aria-pressed="false">♡ Found items</button>
+            <label class="status-select"><span class="sr-only">Filter by status</span>
+                <select id="statusFilter">
+                    <option value="All">All statuses</option>
+                    <option>Available</option><option>Claim requested</option>
+                    <option>Claim approved</option><option>Returned</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="results-line"><span id="resultCount">0 reports</span><span>Community reports</span></div>
+        <div id="items" class="item-grid" aria-live="polite"><div class="empty-state">Loading reports...</div></div>
+    </section>
+
+    <section class="report-section section" id="report">
+        <div class="report-intro">
+            <span class="eyebrow">MAKE A DIFFERENCE</span>
+            <h2>One small report.<br><span>One big reunion.</span></h2>
+            <p>Lost something or found an item that belongs to someone else? Add it to the community board.</p>
+            <div class="report-tip"><span>💜</span><div><strong>A helpful tip</strong><p>Include a clear description and the location where the item was lost or found.</p></div></div>
+        </div>
+
+        <form id="itemForm" class="report-form">
+            <div class="form-heading"><span class="form-icon">✎</span><div><h3>Create a report</h3><p>Fields marked * are required.</p></div></div>
+
+            <label class="field-label">What are you reporting? *</label>
+            <div class="type-choice">
+                <label class="type-option"><input type="radio" name="type" value="Lost" required checked><span>🔎 <b>Lost item</b><small>Something is missing</small></span></label>
+                <label class="type-option"><input type="radio" name="type" value="Found" required><span>🤝 <b>Found item</b><small>Something needs its owner</small></span></label>
+            </div>
+
+            <div class="form-grid">
+                <label class="field"><span>Item name *</span><input name="name" maxlength="100" required placeholder="e.g. Blue water bottle"></label>
+                <label class="field"><span>Category *</span><select name="category" required><option value="">Choose category</option><option>Electronics</option><option>Bags</option><option>Keys</option><option>Documents</option><option>Clothing</option><option>Accessories</option><option>Pets</option><option>Other</option></select></label>
+            </div>
+
+            <label class="field"><span>Location *</span><input name="location" maxlength="150" required placeholder="Where was it lost or found?"></label>
+            <label class="field"><span>Description *</span><textarea name="description" maxlength="1000" required rows="3" placeholder="Describe the item, its color, identifying features..."></textarea></label>
+            <label class="field"><span>Date lost or found *</span><input type="date" name="date" id="itemDate" required></label>
+
+            <label class="field"><span>Photo (optional, max 5 MB)</span><input id="photo" type="file" name="photo" accept="image/jpeg,image/png,image/webp,image/gif"><small>JPG, PNG, WEBP or GIF</small></label>
+            <img id="photoPreview" class="photo-preview" alt="Selected item preview" hidden>
+
+            <button class="button primary submit-button" id="submitButton" type="submit">Publish report <span>↗</span></button>
+            <p id="message" class="form-message" role="status"></p>
+        </form>
+    </section>
+
+    <section class="bottom-banner">
+        <div><span class="eyebrow">BETTER TOGETHER</span><h2>Good things find their way home. <span>♡</span></h2><p>One community. More reunions. A little more kindness.</p></div>
+        <a class="button banner-button" href="#report">Share a report ↗</a>
+    </section>
+</main>
+
+<footer><a class="brand" href="#home"><span class="brand-icon">✦</span> FindIt</a><p>Made with care for communities everywhere.</p><a href="#home">Back to top ↑</a></footer>
+</body>
+</html>

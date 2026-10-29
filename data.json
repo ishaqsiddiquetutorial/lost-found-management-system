@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "black bottle",
+    "type": "Lost",
+    "category": "Bags",
+    "location": "college",
+    "description": "green",
+    "date": "2026-10-22",
+    "photo": "",
+    "status": "Returned",
+    "created": "2026-10-22T04:05:08"
+  },
+  {
+    "id": 2,
+    "name": "mobile",
+    "type": "Lost",
+    "category": "Electronics",
+    "location": "library",
+    "description": "samsung f15",
+    "date": "2026-10-24",
+    "photo": "/uploads/fcee490f852b40a0abadd8072ab9eb3e.jpg",
+    "status": "Returned",
+    "created": "2026-10-24T13:55:40"
+  }
+]
